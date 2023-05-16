@@ -1,0 +1,7 @@
+.popup__container_user-avatar{
+  max-width: 430px;
+  background-color: white;
+  min-height: 272px;
+  box-shadow: (0, 0, 0, 0.15);
+  flex-direction: column;
+}

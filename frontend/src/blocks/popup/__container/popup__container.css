@@ -1,0 +1,7 @@
+.popup__container {
+  display: flex;
+  border-radius: 10px;
+  position: relative;
+
+}
+

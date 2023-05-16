@@ -1,0 +1,23 @@
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-items: start;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  color: #545454;
+  line-height: 22px;
+}
+
+@media screen and (max-width:1044px) {
+  .footer {
+    padding: 0 19px 0;
+  }
+}
+
+@media screen and (max-width:580px) {
+  .footer {
+    font-size: 14px;
+    line-height: 17px;
+  }
+}
