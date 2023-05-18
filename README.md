@@ -8,7 +8,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 84.201.135.206
+IP <84.201.135.206>
 
 Frontend https://praktikum.mesto.nomoredomains.monster/
 
