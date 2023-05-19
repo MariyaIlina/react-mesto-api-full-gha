@@ -5,7 +5,7 @@ const cors = require('cors');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3002 } = process.env;
+const { PORT = 3000 } = process.env;
 const app = express();
 app.use(cors());
 app.use(requestLogger);
