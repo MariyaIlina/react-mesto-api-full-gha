@@ -1,15 +1,29 @@
 const express = require('express');
+
 const mongoose = require('mongoose');
+
+// const cookieParser = require('cookie-parser');
+// eslint-disable-next-line import/no-extraneous-dependencies
 const { errors } = require('celebrate');
+
 const cors = require('cors');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3006 } = process.env;
 const app = express();
-app.use(cors());
-app.use(requestLogger);
 
+app.use(cors({
+  origin: ['http://localhost:3006',
+    'http://localhost:3007',
+    'https://praktikum.mesto.nomoredomains.monster',
+    'https://api.praktikum.mesto.nomoredomains.monster',
+    'http://praktikum.mesto.nomoredomains.monster',
+    'http://api.praktikum.mesto.nomoredomains.monster'],
+  credentials: true,
+}));
+
+app.use(requestLogger);
 const { userRouter } = require('./routes/users');
 const { cardRouter } = require('./routes/cards');
 

@@ -122,7 +122,7 @@ function App() {
           setCurrentUser(data);
           setCards(card);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log('errr!!=>', err));
     }
   }, [loggedIn]);
 
@@ -130,18 +130,20 @@ function App() {
     const token = localStorage.getItem("jwt");
     if (token) {
       cbTokenCheck(location.pathname);
+      console.log('token=>', token);
     }
   }, [location.pathname]);
 
   const cbTokenCheck = () => {
     const jwt = localStorage.getItem("jwt");
+    console.log('=>', jwt)
     if (jwt) {
-      auth
-        .checkToken(jwt)
+      auth.checkToken(jwt)
         .then((res) => {
           if (res) {
-            setLoggedIn(true);
-            setUserData(res.data.email);
+            setLoggedIn(true);console.log('jwt=>', jwt)
+            console.log("res.data=>", res.user.email)
+            setUserData(res.user.email);
             navigate("/");
           }
         })
@@ -195,7 +197,7 @@ function App() {
         if (res.token) {
           setUserData(email);
           setLoggedIn(true);
-          localStorage.setItem("jwt", res.token);
+          localStorage.setItem("jwt", res.token);console.log('setUserData=>', res.token)
           navigate("/");
         }
       })
