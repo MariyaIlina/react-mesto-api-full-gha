@@ -1,21 +1,19 @@
 const express = require('express');
-
 const mongoose = require('mongoose');
-
-// const cookieParser = require('cookie-parser');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const { errors } = require('celebrate');
-
 const cors = require('cors');
+const { errors } = require('celebrate');
+const cookieParser = require('cookie-parser');
+
 const auth = require('./middlewares/auth');
+
+const { PORT = 3001 } = process.env;
+const app = express();
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3006 } = process.env;
-const app = express();
-
 app.use(cors({
-  origin: ['http://localhost:3006',
-    'http://localhost:3007',
+  origin: ['http://localhost:3001',
+    'http://localhost:3000',
+    'http://localhost:3002',
     'https://praktikum.mesto.nomoredomains.monster',
     'https://api.praktikum.mesto.nomoredomains.monster',
     'http://praktikum.mesto.nomoredomains.monster',
@@ -23,6 +21,7 @@ app.use(cors({
   credentials: true,
 }));
 
+app.use(cookieParser());
 app.use(requestLogger);
 const { userRouter } = require('./routes/users');
 const { cardRouter } = require('./routes/cards');
@@ -31,6 +30,12 @@ app.use(express.json());
 const { login, createUser } = require('./controllers/users');
 const { signUpValidation, signInValidation } = require('./middlewares/validator');
 const NotFoundError = require('./errors/not-found-error');
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.post('/signin', signInValidation, login);
 app.post('/signup', signUpValidation, createUser);

@@ -6,34 +6,30 @@ class Api {
   }
 
   _checkResponse(res) {
-    // eslint-disable-next-line no-lone-blocks
-    {
-      if (res.ok) {
+    {if (res.ok) {
         return res.json();
       }
       return Promise.reject(`Ошибка ${res.status}`);
     }
   }
+ 
   getUserInfo = () => {
     return fetch(this._baseUrl + "/users/me", {
       headers: this._headers,
-      credentials: 'include',
     }).then(this._checkResponse);
   };
 
   getImages = () => {
     return fetch(this._baseUrl + "/cards", {
-      headers: this.headers,
-      credentials: 'include',
-    }).then(this._checkResponse);
+      headers: this._headers,
+    })
+    .then(this._checkResponse);
   };
 
   addCard = (data) => {
     return fetch(this._baseUrl + "/cards", {
       method: "POST",
       headers: this._headers,
-      credentials: 'include',
-
       body: JSON.stringify({
         name: data.name,
         link: data.link,
@@ -45,8 +41,6 @@ class Api {
   deleteCard = (_id) => {
     return fetch(this._baseUrl + "/cards/" + _id, {
       headers: this._headers,
-      credentials: 'include',
-
       method: "DELETE",
     })
     .then(this._checkResponse);
@@ -56,8 +50,6 @@ class Api {
     return fetch(this._baseUrl + "/users/me", {
       method: "PATCH",
       headers: this._headers,
-      credentials: 'include',
-
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -68,9 +60,7 @@ class Api {
 
   putLike(_id) {
     return fetch(this._baseUrl + "/cards/likes/" + _id, {
-      headers: this._headers,
-      credentials: 'include',
-
+      headers: this._checkHeaders(),
       method: "PUT",
     }).then(this._checkResponse);
   }
@@ -78,8 +68,6 @@ class Api {
   deleteLike(_id) {
     return fetch(this._baseUrl + "/cards/likes/" + _id, {
       headers: this._headers,
-      credentials: 'include',
-
       method: "DELETE",
     })
     .then(this._checkResponse);
@@ -89,16 +77,13 @@ class Api {
     return fetch(`${this._baseUrl}/cards/${_id}/likes`, {
       method: `${isLiked ? "PUT" : "DELETE"}`,
       headers: this._headers,
-      credentials: 'include',
-
     }).then(this._checkResponse);
   }
+
   editAvatar = (data) => {
     return fetch(this._baseUrl + "/users/me/avatar", {
       method: "PATCH",
       headers: this._headers,
-      credentials: 'include',
-
       body: JSON.stringify({
         avatar: data.avatar,
       }),
@@ -107,13 +92,9 @@ class Api {
 }
 
  const api = new Api({
-  baseUrl: "http://localhost:3006",
-  // eslint-disable-next-line no-template-curly-in-string
-  baseToken:'Bearer ${localStorage.getItem("jwt")}',
-  headers: {
-    authorization: `Bearer ${localStorage.getItem("jwt")}`,
-    "Content-Type": "application/json",
-    
+  baseUrl: "https://api.praktikum.mesto.nomoredomains.monster",
+  headers: { 'Content-Type': 'application/json',
+  authorization: `Bearer ${localStorage.getItem('jwt')}`
   },
 });
 export default api 

@@ -60,9 +60,9 @@ function App() {
     api
       .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
-        setCards((state) =>
+        setCards((state) => 
           state.map((c) => (c._id === card._id ? newCard : c))
-        );
+        );console.log(card)
       })
       .catch((err) => {
         console.log(err);
@@ -80,27 +80,29 @@ function App() {
       });
   }
 
-  function handleUpdateUser(user) {
+  function handleUpdateUser(data) {
     api
-      .editProfile(user)
-      .then((data) => {
-        setCurrentUser(data);
+      .editProfile(data)
+      .then((res) => {
+        setCurrentUser(res.user);
         closeAllPopups();
       })
       .catch((err) => {
         console.log(err);
+        return [];
       });
   }
 
-  function handleUpdateAvatar(user) {
+  function handleUpdateAvatar(data) {
     api
-      .editAvatar(user)
-      .then((data) => {
-        setCurrentUser(data);
+      .editAvatar(data)
+      .then((res) => {
+        setCurrentUser(res.user);
         closeAllPopups();
-      })
+    })
       .catch((err) => {
         console.log(err);
+        return [];
       });
   }
 
@@ -109,6 +111,7 @@ function App() {
       .addCard(data)
       .then((newCard) => {
         setCards([newCard, ...cards]);
+        console.log(newCard);
         closeAllPopups();
       })
       .catch((err) => {
@@ -119,10 +122,11 @@ function App() {
     if (loggedIn) {
       Promise.all([api.getUserInfo(), api.getImages()])
         .then(([data, card]) => {
-          setCurrentUser(data);
+          console.log(data.user);
+          setCurrentUser(data.user);
           setCards(card);
         })
-        .catch((err) => console.log('errr!!=>', err));
+        .catch((err) => console.log('err=>', err));
     }
   }, [loggedIn]);
 
@@ -130,19 +134,17 @@ function App() {
     const token = localStorage.getItem("jwt");
     if (token) {
       cbTokenCheck(location.pathname);
-      console.log('token=>', token);
     }
   }, [location.pathname]);
 
   const cbTokenCheck = () => {
     const jwt = localStorage.getItem("jwt");
-    console.log('=>', jwt)
     if (jwt) {
-      auth.checkToken(jwt)
+      auth
+        .checkToken(jwt)
         .then((res) => {
           if (res) {
-            setLoggedIn(true);console.log('jwt=>', jwt)
-            console.log("res.data=>", res.user.email)
+            setLoggedIn(true);
             setUserData(res.user.email);
             navigate("/");
           }
@@ -195,9 +197,10 @@ function App() {
       .authorize(email, password)
       .then((res) => {
         if (res.token) {
+          console.log('res.token=>', res.token)
           setUserData(email);
           setLoggedIn(true);
-          localStorage.setItem("jwt", res.token);console.log('setUserData=>', res.token)
+          localStorage.setItem("jwt", res.token);
           navigate("/");
         }
       })
