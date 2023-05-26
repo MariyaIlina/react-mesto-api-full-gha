@@ -92,7 +92,7 @@ class Api {
 }
 
  const api = new Api({
-  baseUrl: "https://api.praktikum.mesto.nomoredomains.monster",
+  baseUrl: "http://localhost:3001",
   headers: { 'Content-Type': 'application/json',
   authorization: `Bearer ${localStorage.getItem('jwt')}`
   },
