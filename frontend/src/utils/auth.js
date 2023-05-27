@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:3001";
+export const BASE_URL = "https://api.praktikum.mesto.nomoredomains.monster";
 
 const checkResponse = response => response.ok ? response.json() : Promise.reject(`${response.status}`);
   
