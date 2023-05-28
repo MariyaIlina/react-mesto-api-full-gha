@@ -15,13 +15,19 @@ class Api {
  
   getUserInfo = () => {
     return fetch(this._baseUrl + "/users/me", {
-      headers: this._headers,
+      headers: 
+      {
+        authorization: `Bearer ${localStorage.getItem('jwt')}`
+      },
     }).then(this._checkResponse);
   };
 
   getImages = () => {
     return fetch(this._baseUrl + "/cards", {
-      headers: this._headers,
+      headers: 
+      {
+        authorization: `Bearer ${localStorage.getItem('jwt')}`
+      },
     })
     .then(this._checkResponse);
   };
@@ -29,7 +35,10 @@ class Api {
   addCard = (data) => {
     return fetch(this._baseUrl + "/cards", {
       method: "POST",
-      headers: this._headers,
+      headers: 
+      {
+        authorization: `Bearer ${localStorage.getItem('jwt')}`
+      },
       body: JSON.stringify({
         name: data.name,
         link: data.link,
@@ -40,7 +49,10 @@ class Api {
 
   deleteCard = (_id) => {
     return fetch(this._baseUrl + "/cards/" + _id, {
-      headers: this._headers,
+      headers: 
+      {
+        authorization: `Bearer ${localStorage.getItem('jwt')}`
+      },
       method: "DELETE",
     })
     .then(this._checkResponse);
@@ -49,7 +61,10 @@ class Api {
   editProfile = (data) => {
     return fetch(this._baseUrl + "/users/me", {
       method: "PATCH",
-      headers: this._headers,
+      headers: 
+      {
+        authorization: `Bearer ${localStorage.getItem('jwt')}`
+      },
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -60,14 +75,20 @@ class Api {
 
   putLike(_id) {
     return fetch(this._baseUrl + "/cards/likes/" + _id, {
-      headers: this._checkHeaders(),
+      headers: 
+      {
+        authorization: `Bearer ${localStorage.getItem('jwt')}`
+      },
       method: "PUT",
-    }).then(this._checkResponse);
+    }).then((this._checkResponse));
   }
 
   deleteLike(_id) {
     return fetch(this._baseUrl + "/cards/likes/" + _id, {
-      headers: this._headers,
+      headers: 
+      {
+        authorization: `Bearer ${localStorage.getItem('jwt')}`
+      },
       method: "DELETE",
     })
     .then(this._checkResponse);
@@ -76,25 +97,32 @@ class Api {
   changeLikeCardStatus(_id, isLiked) {
     return fetch(`${this._baseUrl}/cards/${_id}/likes`, {
       method: `${isLiked ? "PUT" : "DELETE"}`,
-      headers: this._headers,
+      headers: 
+      {
+        authorization: `Bearer ${localStorage.getItem('jwt')}`
+      },
     }).then(this._checkResponse);
   }
 
   editAvatar = (data) => {
     return fetch(this._baseUrl + "/users/me/avatar", {
       method: "PATCH",
-      headers: this._headers,
+      headers: 
+      {
+        authorization: `Bearer ${localStorage.getItem('jwt')}`
+      },
+      authorization: `Bearer ${localStorage.getItem('jwt')}`,
       body: JSON.stringify({
         avatar: data.avatar,
       }),
-    }).then(this._checkResponse);
+    })
+    .then(this._checkResponse);
   };
 }
 
  const api = new Api({
   baseUrl: "https://api.praktikum.mesto.nomoredomains.monster",
-  headers: { 'Content-Type': 'application/json',
-  authorization: `Bearer ${localStorage.getItem('jwt')}`
-  },
+  headers:
+    {'Content-Type': 'application/json'},
 });
 export default api 

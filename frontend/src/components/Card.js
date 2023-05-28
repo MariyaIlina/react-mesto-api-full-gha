@@ -13,13 +13,14 @@ function Card({
   const currentUser = React.useContext(CurrentUserContext);
   // Определяем, являемся ли мы владельцем текущей карточки
   const isOwn = card.owner === currentUser.currentUser._id;
+ 
   // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
   const isLiked = card.likes.some((i) => i === currentUser.currentUser._id);
- 
+
   const cardLikeButtonClassName = `element__like ${
     isLiked ? "element__like_active" : "element__like"
   }`;
-
+ 
   const cardDeleteButtonClassName = `element__delete ${
     isOwn ? "" : "element__delete_none"
   }`;

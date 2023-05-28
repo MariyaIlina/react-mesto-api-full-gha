@@ -54,30 +54,34 @@ function App() {
     setSelectedCard({});
     setInfoPopup(false);
   }
+
+
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i === currentUser._id);
-
     api
-      .changeLikeCardStatus(card._id, !isLiked)
+      .changeLikeCardStatus(card._id, !isLiked, setCards)
       .then((card) => {
           setCards((cards) => 
-          cards.map(c => c === card._id ? card : c)
+          cards.map((c) => (c._id === card.like._id ? card.like : c))
          );
+             
       })
       .catch((err) => {
         console.log(err);
+        return []
       });
   }
   function handleCardDelete(card) {
     api
       .deleteCard(card._id)
       .then(() => {
-        const newCards = cards.filter((c) => c._id !== card._id);
-        setCards(newCards);
+        setCards((cards) => cards.filter((c) => {return c._id !== card._id}));
       })
       .catch((err) => {
         console.log(err);
+        return [];
       });
+      
   }
 
   function handleUpdateUser(data) {
@@ -117,7 +121,7 @@ function App() {
         console.log(err);
       });
   }
-  useEffect(() => {
+  useEffect(() => { 
     if (loggedIn) {
       Promise.all([api.getUserInfo(), api.getImages()])
         .then(([data, card]) => {
@@ -195,7 +199,6 @@ function App() {
       .authorize(email, password)
       .then((res) => {
         if (res.token) {
-          console.log('res.token=>', res.token)
           setUserData(email);
           setLoggedIn(true);
           localStorage.setItem("jwt", res.token);
