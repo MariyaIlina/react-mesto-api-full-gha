@@ -87,8 +87,9 @@ function App() {
   function handleUpdateUser(data) {
     api
       .editProfile(data)
-      .then((res) => {
+       .then((res) => {
         setCurrentUser(res.user);
+        
         closeAllPopups();
       })
       .catch((err) => {

@@ -36,7 +36,7 @@ class Api {
     return fetch(this._baseUrl + "/cards", {
       method: "POST",
       headers: 
-      {
+      {'Content-Type': 'application/json',
         authorization: `Bearer ${localStorage.getItem('jwt')}`
       },
       body: JSON.stringify({
@@ -61,14 +61,14 @@ class Api {
   editProfile = (data) => {
     return fetch(this._baseUrl + "/users/me", {
       method: "PATCH",
-      headers: 
-      {
+      headers:
+      { 'Content-Type': 'application/json',
         authorization: `Bearer ${localStorage.getItem('jwt')}`
       },
       body: JSON.stringify({
         name: data.name,
         about: data.about,
-      }),
+      }), 
     })
     .then(this._checkResponse);
   };
@@ -108,10 +108,9 @@ class Api {
     return fetch(this._baseUrl + "/users/me/avatar", {
       method: "PATCH",
       headers: 
-      {
+      {'Content-Type': 'application/json',
         authorization: `Bearer ${localStorage.getItem('jwt')}`
       },
-      authorization: `Bearer ${localStorage.getItem('jwt')}`,
       body: JSON.stringify({
         avatar: data.avatar,
       }),
@@ -122,7 +121,8 @@ class Api {
 
  const api = new Api({
   baseUrl: "https://api.praktikum.mesto.nomoredomains.monster",
-  headers:
-    {'Content-Type': 'application/json'},
+  // baseUrl: "http://localhost:3001",
+  // headers:
+  //   {'Content-Type': 'application/json'},
 });
 export default api 
